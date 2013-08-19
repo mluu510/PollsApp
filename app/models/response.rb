@@ -13,8 +13,8 @@ class Response < ActiveRecord::Base
   private
   def respondent_is_not_poll_author
     poll_author_id = User
-      .joins(:polls => { :questions => :answer_choices })
-      .where("answer_choices.id = ?", self.answer_id)
+      .joins(:authored_polls => { :questions => :answer_choices })
+      .where("answer_choices.id = ?", self.answer_choice_id)
       .pluck("users.id")
       .first
 
@@ -24,11 +24,11 @@ class Response < ActiveRecord::Base
   end
 
   def respondent_has_not_already_answered_question
-    existing_responses = self.existing_responses
+    _existing_responses = existing_responses
 
-    if existing_responses.empty?
+    if _existing_responses.empty?
       # user hasn't responded yet.
-    elsif existing_responses.map(&:id) == [self.id]
+    elsif _existing_responses.map(&:id) == [self.id]
       # we're just updating the sole existing response.
     else
       errors[:respondent_id] << "cannot vote twice for question"
@@ -51,14 +51,17 @@ class Response < ActiveRecord::Base
             FROM
               answer_choices
             WHERE
-              answer_choice.id = :answer_choice_id
+              answer_choices.id = :answer_choice_id
             ))
       SQL
 
     Response.find_by_sql(
-      sql,
-      :answer_choice_id => self.answer_choice_id,
-      :respondent_id => self.respondent_id
+      [
+        sql, {
+          :answer_choice_id => self.answer_choice_id,
+          :respondent_id => self.respondent_id
+        }
+      ]
     )
   end
 end
