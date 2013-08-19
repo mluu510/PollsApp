@@ -14,4 +14,4 @@ group :development do
 end
 
 gem 'jquery-rails'
-gem 'sqlite3'
+gem 'pg'
