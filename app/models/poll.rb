@@ -1,9 +1,11 @@
 class Poll < ActiveRecord::Base
-  attr_accessible :title
-  
-  has_many :questions
+  attr_accessible :author_id, :title
+
+  validates :author_id, :title, :presence => true
+
   belongs_to :author, :class_name => "User"
-  
+  has_many :questions
+
   def results
     # Hash where keys are Questions and values are a nested Hash
     # where keys are AnswerChoices and values are counts
