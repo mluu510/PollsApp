@@ -6,12 +6,8 @@ class CreateResponses < ActiveRecord::Migration
 
       t.timestamps
     end
-    
+
     add_index :responses, :answer_choice_id
     add_index :responses, :respondent_id
-    
-    # NB: won't work; what if user tries to submit different answers to same
-    # question?
-    # create_index :polls, [:user_id, :answer_choice_id], :unique => true
   end
 end
