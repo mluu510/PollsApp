@@ -14,10 +14,10 @@
 ActiveRecord::Schema.define(:version => 20130403011939) do
 
   create_table "answer_choices", :force => true do |t|
-    t.integer  "question_id",   :null => false
-    t.string   "response_text", :null => false
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "question_id", :null => false
+    t.string   "text",        :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "answer_choices", ["question_id"], :name => "index_answer_choices_on_question_id"
@@ -33,12 +33,11 @@ ActiveRecord::Schema.define(:version => 20130403011939) do
 
   create_table "questions", :force => true do |t|
     t.integer  "poll_id",    :null => false
-    t.string   "prompt",     :null => false
+    t.string   "text",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "questions", ["poll_id", "prompt"], :name => "index_questions_on_poll_id_and_prompt", :unique => true
   add_index "questions", ["poll_id"], :name => "index_questions_on_poll_id"
 
   create_table "responses", :force => true do |t|
@@ -52,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20130403011939) do
   add_index "responses", ["respondent_id"], :name => "index_responses_on_respondent_id"
 
   create_table "users", :force => true do |t|
-    t.string   "user_name"
+    t.string   "user_name",  :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
