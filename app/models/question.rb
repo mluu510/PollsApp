@@ -26,7 +26,7 @@ class Question < ActiveRecord::Base
 
     {}.tap do |results|
       answer_choices.each do |answer_choice|
-        results[answer_choice.text] = Integer(answer_choice.response_count)x
+        results[answer_choice.text] = Integer(answer_choice.response_count)
       end
     end
   end
