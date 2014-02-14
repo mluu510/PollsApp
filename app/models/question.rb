@@ -21,7 +21,7 @@ class Question < ActiveRecord::Base
       .select(select_sql)
       .joins(:question)
       .joins(responses_joins_sql)
-      .where("questions.poll_id = ?", self.id)
+      .where("questions.id = ?", self.id)
       .group("answer_choices.id")
 
     {}.tap do |results|
